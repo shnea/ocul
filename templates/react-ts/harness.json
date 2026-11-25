@@ -1,0 +1,7 @@
+{
+  "projectId": "{{PROJECT_ID}}",
+  "stack": "react-ts",
+  "harnessPath": "{{HARNESS_PATH}}",
+  "verifyPipeline": ["sync-check", "boundary", "lint", "test", "build"],
+  "customVerify": {}
+}

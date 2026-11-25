@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "projects": [
+    {
+      "id": "core-dashboard",
+      "kind": "core",
+      "path": "./core/dashboard",
+      "stack": "react-ts",
+      "status": "active",
+      "createdAt": "2026-11-25"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "bypassCommentPatterns": [
+    {
+      "id": "no-eslint-disable",
+      "regex": "(?://|/\\*)\\s*eslint-disable",
+      "message": "eslint-disable bypass comment is forbidden.",
+      "fix": "Remove the eslint-disable comment and fix the underlying lint/architecture violation."
+    },
+    {
+      "id": "no-ignore-comment",
+      "regex": "//\\s*ignore(_for_file)?\\s*:",
+      "message": "Lint ignore comment is forbidden.",
+      "fix": "Remove the ignore comment and resolve the analyzer warning at its root cause."
+    },
+    {
+      "id": "no-hack-comment",
+      "regex": "(?://|/\\*|#)\\s*HACK\\s*:",
+      "message": "HACK workaround comment is forbidden.",
+      "fix": "Replace the workaround with a proper implementation in core/, platform/, or ui-kit/."
+    }
+  ],
+  "scopedRules": [
+    {
+      "id": "no-direct-fetch-in-features",
+      "pathPattern": "(^|/)features/",
+      "extensions": [".js", ".mjs", ".ts", ".tsx"],
+      "regex": "\\bfetch\\s*\\(",
+      "message": "Direct fetch() call in features/ is forbidden.",
+      "fix": "Move the HTTP request into platform/ (e.g. web/src/platform/api-client.js) and call it via platform/ interface."
+    },
+    {
+      "id": "no-axios-in-features",
+      "pathPattern": "(^|/)features/",
+      "extensions": [".js", ".mjs", ".ts", ".tsx"],
+      "regex": "from\\s+['\"]axios['\"]|require\\(\\s*['\"]axios['\"]\\s*\\)",
+      "message": "Direct axios usage in features/ is forbidden.",
+      "fix": "Wrap axios inside platform/ and expose a domain-level client function."
+    },
+    {
+      "id": "no-useEffect-in-features",
+      "pathPattern": "(^|/)features/",
+      "extensions": [".js", ".mjs", ".ts", ".tsx"],
+      "regex": "\\buseEffect\\s*\\(",
+      "message": "Direct useEffect() in features/ is forbidden.",
+      "fix": "Encapsulate side-effects and data-fetching hooks inside ui-kit/ or platform/."
+    },
+    {
+      "id": "no-fs-in-routes",
+      "pathPattern": "(^|/)server/routes/",
+      "extensions": [".js", ".mjs", ".ts"],
+      "regex": "(?:from\\s+['\"](?:node:)?fs(?:/promises)?['\"]|require\\(\\s*['\"](?:node:)?fs(?:/promises)?['\"]\\s*\\))",
+      "message": "Direct fs module import in server/routes/ is forbidden.",
+      "fix": "Use server/scanners/ for read-only file scanning or server/vault/ for encrypted secret writes."
+    }
+  ]
+}

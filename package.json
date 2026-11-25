@@ -1,0 +1,20 @@
+{
+  "name": "ocul-central-harness",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Central Harness (SSOT rules, templates, CLI, and core dashboard) for deterministic agent guardrails",
+  "bin": {
+    "harness": "./cli/harness-cli/bin/harness.mjs"
+  },
+  "scripts": {
+    "harness": "node ./cli/harness-cli/bin/harness.mjs",
+    "sync:all": "node ./cli/harness-cli/bin/harness.mjs sync --all",
+    "verify:core": "node ./cli/harness-cli/bin/harness.mjs verify core-dashboard",
+    "ui": "node ./cli/harness-cli/bin/harness.mjs ui",
+    "test": "node --test ./core/dashboard/tests/*.test.mjs ./cli/harness-cli/tests/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

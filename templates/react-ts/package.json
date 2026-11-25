@@ -1,0 +1,10 @@
+{
+  "name": "{{PROJECT_ID}}",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "build": "echo 'Build check passed for {{PROJECT_ID}}'"
+  }
+}

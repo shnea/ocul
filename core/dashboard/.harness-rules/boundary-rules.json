@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "layers": {
+    "core": {
+      "allowedTargets": ["core"],
+      "forbiddenExternal": [
+        "fs",
+        "node:fs",
+        "fs/promises",
+        "node:fs/promises",
+        "http",
+        "node:http",
+        "https",
+        "node:https",
+        "child_process",
+        "node:child_process",
+        "dart:io"
+      ],
+      "fix": "Keep core/ pure domain logic with zero external/layer dependencies. Move I/O to platform/ or UI to ui-kit/."
+    },
+    "platform": {
+      "allowedTargets": ["core", "platform"],
+      "forbiddenExternal": [],
+      "fix": "platform/ may only depend on core/ and platform/. Do not import ui-kit/ or features/."
+    },
+    "ui-kit": {
+      "allowedTargets": ["core", "ui-kit"],
+      "forbiddenExternal": [],
+      "fix": "ui-kit/ may only depend on core/ and ui-kit/. Pass data/callbacks via props instead of importing platform/ or features/."
+    },
+    "features": {
+      "allowedTargets": ["core", "ui-kit", "platform", "features"],
+      "disallowDeepPlatformImports": true,
+      "disallowCrossFeatureImports": true,
+      "forbiddenExternal": [
+        "fs",
+        "node:fs",
+        "fs/promises",
+        "node:fs/promises",
+        "dart:io",
+        "axios"
+      ],
+      "fix": "features/ may import core/, ui-kit/, or platform/ public interface (platform/index), and must not import another feature or raw I/O modules directly."
+    }
+  },
+  "serverLayers": {
+    "routes": {
+      "allowedTargets": ["scanners", "vault", "routes", "shared"],
+      "forbiddenExternal": [
+        "fs",
+        "node:fs",
+        "fs/promises",
+        "node:fs/promises"
+      ],
+      "fix": "server/routes/ must not import fs directly. Use server/scanners/ for reads and server/vault/ for secret writes."
+    },
+    "scanners": {
+      "allowedTargets": ["scanners", "shared"],
+      "forbiddenExternal": [],
+      "fix": "server/scanners/ is strictly read-only and must not import server/vault/ or server/routes/."
+    },
+    "vault": {
+      "allowedTargets": ["vault", "shared"],
+      "forbiddenExternal": [],
+      "fix": "server/vault/ must stay isolated from server/routes/ and server/scanners/."
+    }
+  }
+}

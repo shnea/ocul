@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "projectId": "core-dashboard",
+  "stack": "react-ts",
+  "syncedAt": "2026-11-24T22:03:36.088Z",
+  "files": {
+    ".harness-rules/boundary-rules.json": {
+      "sha256": "ef18e4bf2cec646df6ddb4bb527dd3648efcb9f78e28822ac9403f2431c62430",
+      "source": "rules/boundary/boundary-rules.json"
+    },
+    ".harness-rules/guardrail-rules.json": {
+      "sha256": "74c1f1a41024a752875b6d44467a116efcfae96b3d3737aa8ab1b0ed8b950251",
+      "source": "rules/eslint-config/guardrail-rules.json"
+    },
+    "CLAUDE.md": {
+      "sha256": "0e600c33e24ed2912a4fe69f0599833fd35264106b4f92b60dcf831633b09a16",
+      "source": "rules/agent-instructions/CLAUDE.md"
+    },
+    "GEMINI.md": {
+      "sha256": "2d4ee0d10245abfd78ac741c0bb8ffcef470e4bfc3ba24cbb80d47fb775a57c0",
+      "source": "rules/agent-instructions/GEMINI.md"
+    },
+    "eslint.config.mjs": {
+      "sha256": "bb7006e78cb901071bb6203317869170e44a79b673d4579e0fbd75f9a4f8bbe1",
+      "source": "rules/eslint-config/eslint.config.mjs"
+    }
+  }
+}

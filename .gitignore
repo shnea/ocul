@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+*.log
+.harness/logs/*.jsonl
+secrets.enc
+.env
+.env.*

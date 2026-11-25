@@ -1,0 +1,52 @@
+#!/usr/bin/env sh
+# Central Harness pre-commit hook (SSOT)
+# Blocks commits on non-wip/* branches unless `harness verify` returns RESULT: PASSED.
+
+set -eu
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+BRANCH="$(git symbolic-ref --short HEAD 2>/dev/null || echo detached)"
+
+if [ ! -f "$REPO_ROOT/harness.json" ]; then
+  exit 0
+fi
+
+HARNESS_BIN="$(node -e "
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const meta = JSON.parse(fs.readFileSync(path.join(process.argv[1], 'harness.json'), 'utf8'));
+  const candidate = path.resolve(process.argv[1], meta.harnessPath || '.', 'cli', 'harness-cli', 'bin', 'harness.mjs');
+  if (fs.existsSync(candidate)) {
+    process.stdout.write(candidate);
+  }
+" "$REPO_ROOT")"
+
+if [ -n "$HARNESS_BIN" ]; then
+  set +e
+  node "$HARNESS_BIN" verify
+  VERIFY_STATUS=$?
+  set -e
+elif command -v harness >/dev/null 2>&1; then
+  set +e
+  harness verify
+  VERIFY_STATUS=$?
+  set -e
+else
+  echo "[harness pre-commit] Could not locate harness CLI." >&2
+  exit 1
+fi
+
+if [ "$VERIFY_STATUS" -ne 0 ]; then
+  case "$BRANCH" in
+    wip/*)
+      echo "[harness pre-commit] WARNING: harness verify failed, but commit is allowed on '$BRANCH' for WIP isolation." >&2
+      exit 0
+      ;;
+    *)
+      echo "[harness pre-commit] Commit blocked on branch '$BRANCH'. Fix the errors above or switch to a 'wip/<name>' branch." >&2
+      exit 1
+      ;;
+  esac
+fi
+
+exit 0

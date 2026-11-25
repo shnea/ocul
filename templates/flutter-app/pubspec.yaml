@@ -1,0 +1,7 @@
+name: {{PROJECT_ID_SNAKE}}
+description: Harness-managed Flutter application ({{PROJECT_ID}})
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
